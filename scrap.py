@@ -24,7 +24,6 @@ print('Writing checkpoint 2 to csv')
 with open("checkpoint_two.csv", "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerows(dict_edit2)
-    print('Done')
 
 
 
