@@ -25,6 +25,17 @@ def find_end(url):
 
     return page_end
 
+def find_end_search(search):
+    url = 'https://eksisozluk.com/basliklar/ara?SearchForm.Keywords=' + search + '&SearchForm.NiceOnly=false&SearchForm.SortOrder=Date&p=2'
+    end_r = requests.get(url, headers=headers_1)
+    soup_end = BeautifulSoup(end_r.content, 'html.parser')
+    page_end = re.findall(re.compile('(?:\D*(\d+)){2}'), str(soup_end.find_all("div", class_='pager')))
+    try:
+        page_end = int(page_end[0])
+    except:
+        page_end = 0
+    return page_end
+
 
 # Return titles and links for searchedtitle
 def titles_links(baslik_search, page_end):
@@ -131,14 +142,13 @@ def get_icerik(new_dict):
     '''
     print('Started scraping icerik')
     dict_edit = []
-    list_edit = []
     for url, page_max in tqdm(zip(new_dict.get('link'), new_dict.get('max_page')),
                               total=len(new_dict.get('link'))):  # type: (object, object)
         list_edit = []
-        text_edit = []
-        for i in range(1, 2):
+        print('Scraping... ', url)
+        for i in tqdm(range(1, page_max + 1)):
             urls = url + '?p=' + str(i)
-            r = requests.get(url, headers=headers_1)
+            r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
             #     text = soup_try.find('div',class_='content').text.strip().split(';')
             try:
@@ -148,8 +158,9 @@ def get_icerik(new_dict):
             #             text_edit = [i for i in text_edit if i != 'None']
             except TypeError:
                 text_edit = ['Problem']
-            text_edit = [i[0] for i in text_edit]
+            text_edit = [i[0].strip('[') for i in text_edit]
             list_edit.append(text_edit)
+            list_edit = [i for s in list_edit for i in s]
             sleep(random.randint(0, 2))
         dict_edit.append(list_edit)
     print('Done')
@@ -179,6 +190,7 @@ def grab_single(url):
             text_edit = ['Problem']
         text_edit = [i[0] for i in text_edit]
         single_list.append(text_edit)
+        single_list = [i for s in single_list for i in s]
         sleep(random.randint(0, 2))
     return single_list
 
@@ -206,7 +218,7 @@ def get_date(url):
     return [i[0] for i in list_date]
 
 
-def grab_hard(url, date=True, method='input'):
+def get_with_method(url, date=True, method='input'):
     """
 
     :type url: str
@@ -237,8 +249,9 @@ def grab_hard(url, date=True, method='input'):
             #             text_edit = [i for i in text_edit if i != 'None']
             except TypeError:
                 text_edit = ['Problem']
-            text_edit = [i[0] for i in text_edit]
+            text_edit = [i for s in text_edit for i in s]
             single_list.append(text_edit)
+            single_list = [i for s in single_list for i in s]
             try:
                 date = [i.strip()[:10] for i in
                         soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
@@ -256,7 +269,6 @@ def grab_hard(url, date=True, method='input'):
         start = 1
         end = end + 1
         for i in tqdm(range(start, end)):
-            text_edit = []
             urls = url + '?p=' + str(i)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
@@ -268,8 +280,9 @@ def grab_hard(url, date=True, method='input'):
             #             text_edit = [i for i in text_edit if i != 'None']
             except TypeError:
                 text_edit = ['Problem']
-            text_edit = [i[0] for i in text_edit]
+            text_edit = [i for s in text_edit for i in s]
             single_list.append(text_edit)
+            single_list = [i for s in single_list for i in s]
             try:
                 date = [i.strip()[:10] for i in
                         soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
@@ -279,5 +292,34 @@ def grab_hard(url, date=True, method='input'):
             list_date.append(date)
             sleep(random.randint(0, 2))
         return single_list, [i[0] for i in list_date]
+    elif method == 'debug':
+        single_list = []
+        list_date = []
+        end = find_end(url)
+        print('This title has' + ' ' + str(end) + ' ' + 'pages')
+        start = 1
+        for i in tqdm(range(start, 5)):
+            urls = url + '?p=' + str(i)
+            r = requests.get(urls, headers=headers_1)
+            soup_try = BeautifulSoup(r.content, 'html.parser')
+            #     text = soup_try.find('div',class_='content').text.strip().split(';')
+            try:
+                text_edit = [i.text.strip().split(';') for i in soup_try.find_all('div', class_='content')]
+            except AttributeError:
+                text_edit = [str(i.string).strip() for i in soup_try.find('div', class_='content')]
+            #             text_edit = [i for i in text_edit if i != 'None']
+            except TypeError:
+                text_edit = ['Problem']
+            text_edit = [i for s in text_edit for i in s]
+            single_list.append(text_edit)
+            single_list = [i for s in single_list for i in s]
+            try:
+                date = [i.get_text(strip=True)[:11] for i in soup_try.find('div', {'id': 'content'}).find_all('div', {'class': 'info'})]
+            except:
+                begin = ['0']
+            list_date.append(date)
+            list_date = [i for s in list_date for i in s]
+            sleep(random.randint(0, 2))
+            return single_list, list_date
     else:
         return grab_single(url)

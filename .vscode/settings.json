@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/Users/mac/anaconda3/envs/Scraper/bin/python",
+    "python.formatting.provider": "yapf"
+}

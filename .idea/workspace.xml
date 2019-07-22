@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c38065c-b6bd-469a-8f0a-9bdb5add9a4c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/get_garanti.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example_scrap_gitar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/checkpoint_one.csv" beforeDir="false" afterPath="$PROJECT_DIR$/checkpoint_one.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/checkpoint_two.csv" beforeDir="false" afterPath="$PROJECT_DIR$/checkpoint_two.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/funcs.py" beforeDir="false" afterPath="$PROJECT_DIR$/funcs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrap.py" beforeDir="false" afterPath="$PROJECT_DIR$/scrap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_garanti.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_garanti.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +14,9 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Scraper$get_garanti.coverage" NAME="get_garanti Coverage Results" MODIFIED="1563522844669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Scraper$get_garanti.coverage" NAME="get_garanti Coverage Results" MODIFIED="1563787481379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Scraper$.coverage" NAME=" Coverage Results" MODIFIED="1563513448435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Scraper$example_scrap_gitar.coverage" NAME="example_scrap_gitar Coverage Results" MODIFIED="1563769417025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Scraper$sa.coverage" NAME="sa Coverage Results" MODIFIED="1563518116508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Scraper$funcs.coverage" NAME="funcs Coverage Results" MODIFIED="1563452500631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -43,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scrap.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="12" column="10" lean-forward="true" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+            <state relative-caret-position="414">
+              <caret line="20" selection-start-line="20" selection-end-line="20" selection-end-column="74" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -52,23 +51,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/get_garanti.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+            <state relative-caret-position="46">
+              <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="56" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/funcs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="204" column="17" lean-forward="true" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="17" />
+            <state relative-caret-position="532">
+              <caret line="325" lean-forward="true" selection-start-line="325" selection-end-line="325" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example_scrap_gitar.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -90,10 +98,11 @@
       <find>gundem_baslik</find>
       <find>gundem_soup</find>
       <find>csv</find>
+      <find>urla</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="UPDATE_TYPE" value="MERGE" />
+    <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -102,16 +111,16 @@
         <option value="$PROJECT_DIR$/sa.py" />
         <option value="$PROJECT_DIR$/sa.ipynb" />
         <option value="$PROJECT_DIR$/scrap.py" />
-        <option value="$PROJECT_DIR$/get_garanti.py" />
+        <option value="$PROJECT_DIR$/example_scrap_gitar.py" />
         <option value="$PROJECT_DIR$/funcs.py" />
+        <option value="$PROJECT_DIR$/get_garanti.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="35" />
-    <option name="y" value="126" />
+    <option name="y" value="-127" />
     <option name="width" value="1440" />
-    <option name="height" value="808" />
+    <option name="height" value="806" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -119,13 +128,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
-            <path>
-              <item name="Scraper" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scraper" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="Scraper" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
@@ -134,7 +140,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -157,6 +162,28 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.get_garanti">
+    <configuration name="example_scrap_gitar" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Scraper" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example_scrap_gitar.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="funcs" type="PythonConfigurationType" factoryName="Python">
       <module name="Scraper" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -226,6 +253,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.get_garanti" />
+        <item itemvalue="Python.example_scrap_gitar" />
         <item itemvalue="Python.sa" />
       </list>
     </recent_temporary>
@@ -244,7 +272,10 @@
       <workItem from="1563438961209" duration="902000" />
       <workItem from="1563444477331" duration="625000" />
       <workItem from="1563445117126" duration="13157000" />
-      <workItem from="1563469066361" duration="12555000" />
+      <workItem from="1563469066361" duration="12617000" />
+      <workItem from="1563533310334" duration="5051000" />
+      <workItem from="1563769222059" duration="3043000" />
+      <workItem from="1563787376076" duration="532000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1563462116141</created>
@@ -260,11 +291,18 @@
       <option name="project" value="LOCAL" />
       <updated>1563462165229</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="big update">
+      <created>1563523694285</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1563523694286</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27490000" />
+    <option name="totallyTimeSpent" value="36178000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -276,16 +314,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="808" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="806" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4970646" weight="0.29899856" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4970646" weight="0.3028083" />
       <window_info id="Structure" order="1" sideWeight="0.5029354" side_tool="true" weight="0.25518927" />
       <window_info id="Favorites" order="2" sideWeight="0.5029354" side_tool="true" weight="0.25518927" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49785408" visible="true" weight="0.32816902" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.47887325" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49785408" weight="0.39265537" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.47881356" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32816902" />
@@ -302,6 +340,30 @@
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Database" order="4" weight="0.32967034" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4970646" visible="true" weight="0.3028083" />
+      <window_info id="Structure" order="1" sideWeight="0.5029354" side_tool="true" weight="0.25518927" />
+      <window_info id="Favorites" order="2" sideWeight="0.5029354" side_tool="true" weight="0.25518927" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49785408" weight="0.32816902" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.47887325" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32816902" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32902467" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50214595" side_tool="true" weight="0.32957748" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49713877" weight="0.35252643" />
+      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49785408" weight="0.32676056" />
+      <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="13" weight="0.32957748" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32967034" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -309,11 +371,19 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update" />
     <MESSAGE value="update2" />
-    <option name="LAST_COMMIT_MESSAGE" value="update2" />
+    <MESSAGE value="big update" />
+    <option name="LAST_COMMIT_MESSAGE" value="big update" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/get_garanti.py</url>
+          <line>5</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" log-message="true" type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -366,28 +436,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scrap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="12" column="10" lean-forward="true" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        <state relative-caret-position="414">
+          <caret line="20" selection-start-line="20" selection-end-line="20" selection-end-column="74" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/get_garanti.py">
+    <entry file="file://$PROJECT_DIR$/example_scrap_gitar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        <state relative-caret-position="207">
+          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/funcs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="204" column="17" lean-forward="true" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="17" />
+        <state relative-caret-position="532">
+          <caret line="325" lean-forward="true" selection-start-line="325" selection-end-line="325" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/get_garanti.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="56" />
         </state>
       </provider>
     </entry>
