@@ -15,6 +15,7 @@ print(list_end[:5])
 starter_dict = dict(title=list_titles, link=list_links, max_page=list_max_pages)
 list_icerik = get_icerik(starter_dict)
 
-df_dict = dict(title=list_titles, links=list_links, listbegin=list_begin, listend=list_end, maxpage=list_max_pages,entry=list_icerik )
+df_dict = dict(entry=[i[0] for i in list_icerik], listend=list_end, listbegin=list_begin, maxpage=list_max_pages,
+               links=list_links, title=list_titles)
 df = pd.DataFrame(df_dict)
 df.to_csv('example_gitar.csv')

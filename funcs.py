@@ -1,11 +1,15 @@
 import requests
 import re
 import pandas as pd
+import requests as requests
 from bs4 import BeautifulSoup
 from time import sleep
 from tqdm import tqdm
 import random
 import csv
+from stopwords_1 import stopwords_1
+from wordcloud import WordCloud, ImageColorGenerator
+import matplotlib.pyplot as plt
 
 # TODO: Load from Checkpoint
 # TODO: get icerik
@@ -24,6 +28,7 @@ def find_end(url):
         page_end = 0
 
     return page_end
+
 
 def find_end_search(search):
     url = 'https://eksisozluk.com/basliklar/ara?SearchForm.Keywords=' + search + '&SearchForm.NiceOnly=false&SearchForm.SortOrder=Date&p=2'
@@ -144,25 +149,18 @@ def get_icerik(new_dict):
     dict_edit = []
     for url, page_max in tqdm(zip(new_dict.get('link'), new_dict.get('max_page')),
                               total=len(new_dict.get('link'))):  # type: (object, object)
-        list_edit = []
+        list_entry = []
         print('Scraping... ', url)
-        for i in tqdm(range(1, page_max + 1)):
+        for i in range(1, page_max + 1):
             urls = url + '?p=' + str(i)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
             #     text = soup_try.find('div',class_='content').text.strip().split(';')
-            try:
-                text_edit = [i.text.strip().split(';') for i in soup_try.find_all('div', class_='content')]
-            except AttributeError:
-                text_edit = [str(i.string).strip() for i in soup_try.find('div', class_='content')]
-            #             text_edit = [i for i in text_edit if i != 'None']
-            except TypeError:
-                text_edit = ['Problem']
-            text_edit = [i[0].strip('[') for i in text_edit]
-            list_edit.append(text_edit)
-            list_edit = [i for s in list_edit for i in s]
+            for i in soup_try.find_all('div', class_='content'):
+                list_entry.append(i.get_text(strip=True))
+
             sleep(random.randint(0, 2))
-        dict_edit.append(list_edit)
+        dict_edit.append(list_entry)
     print('Done')
     return dict_edit
 
@@ -227,6 +225,7 @@ def get_with_method(url, date=True, method='input'):
     :param method: 'input' -> User defined range, 'all' -> every page
     :return: list of entries, list of dates
     """
+    global list_entry
     if method == 'input':
         single_list = []
         list_date = []
@@ -241,24 +240,18 @@ def get_with_method(url, date=True, method='input'):
             urls = url + '?p=' + str(i)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
-            #     text = soup_try.find('div',class_='content').text.strip().split(';')
-            try:
-                text_edit = [i.text.strip().split(';') for i in soup_try.find_all('div', class_='content')]
-            except AttributeError:
-                text_edit = [str(i.string).strip() for i in soup_try.find('div', class_='content')]
-            #             text_edit = [i for i in text_edit if i != 'None']
-            except TypeError:
-                text_edit = ['Problem']
-            text_edit = [i for s in text_edit for i in s]
+
+            text_edit = [i.get_text(strip=True) for i in soup_try.find_all('div', class_='content')]
             single_list.append(text_edit)
             single_list = [i for s in single_list for i in s]
+
             try:
-                date = [i.strip()[:10] for i in
-                        soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
-                            'class': 'entry-date permalink'})]
+                date = [i.get_text(strip=True)[:11] for i in
+                        soup_try.find('div', {'id': 'content'}).find_all('div', {'class': 'info'})]
             except:
                 begin = ['0']
             list_date.append(date)
+            list_date = [i for s in list_date for i in s]
             sleep(random.randint(0, 2))
         return single_list, [i[0] for i in list_date]
     elif method == 'all':
@@ -268,58 +261,88 @@ def get_with_method(url, date=True, method='input'):
         print('This title has' + ' ' + str(end) + ' ' + 'pages')
         start = 1
         end = end + 1
+        list_entry = []
+        list_date = []
         for i in tqdm(range(start, end)):
             urls = url + '?p=' + str(i)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
-            #     text = soup_try.find('div',class_='content').text.strip().split(';')
-            try:
-                text_edit = [i.text.strip().split(';') for i in soup_try.find_all('div', class_='content')]
-            except AttributeError:
-                text_edit = [str(i.string).strip() for i in soup_try.find('div', class_='content')]
-            #             text_edit = [i for i in text_edit if i != 'None']
-            except TypeError:
-                text_edit = ['Problem']
-            text_edit = [i for s in text_edit for i in s]
-            single_list.append(text_edit)
-            single_list = [i for s in single_list for i in s]
-            try:
-                date = [i.strip()[:10] for i in
-                        soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
-                            'class': 'entry-date permalink'})]
-            except:
-                begin = ['0']
-            list_date.append(date)
+
+            for i in soup_try.find_all('div', class_='content'):
+                list_entry.append(i.get_text(strip=True))
+
+            for i in soup_try.find_all('div', {'class': 'info'}):
+                list_date.append(i.get_text(strip=True)[:10])
+
             sleep(random.randint(0, 2))
-        return single_list, [i[0] for i in list_date]
+        return list_entry, list_date
     elif method == 'debug':
         single_list = []
         list_date = []
         end = find_end(url)
         print('This title has' + ' ' + str(end) + ' ' + 'pages')
         start = 1
-        for i in tqdm(range(start, 5)):
+        list_entry = []
+        list_date = []
+        for i in tqdm(range(start, 15)):
             urls = url + '?p=' + str(i)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
-            #     text = soup_try.find('div',class_='content').text.strip().split(';')
-            try:
-                text_edit = [i.text.strip().split(';') for i in soup_try.find_all('div', class_='content')]
-            except AttributeError:
-                text_edit = [str(i.string).strip() for i in soup_try.find('div', class_='content')]
-            #             text_edit = [i for i in text_edit if i != 'None']
-            except TypeError:
-                text_edit = ['Problem']
-            text_edit = [i for s in text_edit for i in s]
-            single_list.append(text_edit)
-            single_list = [i for s in single_list for i in s]
-            try:
-                date = [i.get_text(strip=True)[:11] for i in soup_try.find('div', {'id': 'content'}).find_all('div', {'class': 'info'})]
-            except:
-                begin = ['0']
-            list_date.append(date)
-            list_date = [i for s in list_date for i in s]
+
+            for i in soup_try.find_all('div', class_='content'):
+                list_entry.append(i.get_text(strip=True))
+
+            for i in soup_try.find_all('div', {'class': 'info'}):
+                list_date.append(i.get_text(strip=True)[:10])
+
             sleep(random.randint(0, 2))
-            return single_list, list_date
+        return list_entry, list_date
     else:
         return grab_single(url)
+
+
+def plot_wordcloud(text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0, 16.0),
+                   title='Vo', title_size=40, image_color=False, colormap="viridis", background_color='white'):
+    """
+
+        :param text: As df['column'] format or list of text(words)
+        :param mask: Defaults to None
+        :param max_words: As integer
+        :param max_font_size: As integer
+        :param figure_size: As Tuple
+        :param title: As string
+        :param title_size: As integer
+        :param image_color: Defaults to False
+        """
+
+    if colormap == 'vodafone':
+        colormap = 'Reds'
+    else:
+        pass
+
+    wordcloud = WordCloud(background_color=background_color,
+                          max_words=max_words,
+                          stopwords=stopwords_1,
+                          max_font_size=max_font_size,
+                          random_state=42,
+                          width=800,
+                          height=400,
+                          mask=mask,
+                          colormap=colormap,
+                          contour_width=1)
+    wordcloud.generate(str(text))
+
+    plt.figure(figsize=figure_size)
+    if image_color:
+        image_colors = ImageColorGenerator(mask);
+        plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear");
+        plt.title(title, fontdict={'size': title_size,
+                                   'verticalalignment': 'bottom'})
+    else:
+        plt.imshow(wordcloud);
+        plt.title(title, fontdict={'size': title_size, 'color': 'black',
+                                   'verticalalignment': 'bottom'})
+    plt.axis('off');
+    plt.tight_layout()
+    plt.show()
+    wordcloud.to_file('wordcloud/demo_garanti.png')
