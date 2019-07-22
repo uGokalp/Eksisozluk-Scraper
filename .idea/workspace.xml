@@ -54,8 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/get_garanti.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="46">
-              <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="56" />
+            <state relative-caret-position="161">
+              <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -275,7 +275,7 @@
       <workItem from="1563469066361" duration="12617000" />
       <workItem from="1563533310334" duration="5051000" />
       <workItem from="1563769222059" duration="3043000" />
-      <workItem from="1563787376076" duration="532000" />
+      <workItem from="1563787376076" duration="707000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1563462116141</created>
@@ -302,7 +302,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36178000" />
+    <option name="totallyTimeSpent" value="36353000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -315,7 +315,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="806" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4970646" weight="0.3028083" />
       <window_info id="Structure" order="1" sideWeight="0.5029354" side_tool="true" weight="0.25518927" />
@@ -463,8 +462,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/get_garanti.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="11" lean-forward="true" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="56" />
+        <state relative-caret-position="161">
+          <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
         </state>
       </provider>
     </entry>
