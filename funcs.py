@@ -10,6 +10,7 @@ import csv
 from stopwords_1 import stopwords_1
 from wordcloud import WordCloud, ImageColorGenerator
 import matplotlib.pyplot as plt
+import os
 
 # TODO: Load from Checkpoint
 # TODO: get icerik
@@ -25,7 +26,7 @@ def find_end(url):
     try:
         page_end = int(page_end[0])
     except:
-        page_end = 0
+        page_end = 1
 
     return page_end
 
@@ -97,11 +98,9 @@ def start_date(list_links):
         r = requests.get(i, headers=headers_1)
         soup_try = BeautifulSoup(r.content, 'html.parser')
         try:
-            begin = [i.strip()[:10] for i in
-                     soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
-                         'class': 'entry-date permalink'})]
+            begin = soup_try.find_all('div', class_='info')[0].get_text(strip=True)[:10]
         except:
-            begin = ['0']
+            begin = 1
         list_begin.append(begin)
     print('Done')
     return list_begin
@@ -121,11 +120,9 @@ def end_date(list_links, max_page):
         r = requests.get(url, headers=headers_1)
         soup_try = BeautifulSoup(r.content, 'html.parser')
         try:
-            end = [i.strip()[:10] for i in
-                   soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
-                       'class': 'entry-date permalink'})]
+            end = soup_try.find_all('div', class_='info')[-1].get_text(strip=True)[:10]
         except:
-            end = ['0']
+            end = 1
         list_end.append(end)
     print('Done')
     return list_end
@@ -146,23 +143,35 @@ def get_icerik(new_dict):
     :return:
     '''
     print('Started scraping icerik')
-    dict_edit = []
+    big_edit = []
     for url, page_max in tqdm(zip(new_dict.get('link'), new_dict.get('max_page')),
                               total=len(new_dict.get('link'))):  # type: (object, object)
         list_entry = []
         print('Scraping... ', url)
-        for i in range(1, page_max + 1):
-            urls = url + '?p=' + str(i)
+        if page_max == 1:
+            urls = url + '?p=' + str(1)
             r = requests.get(urls, headers=headers_1)
             soup_try = BeautifulSoup(r.content, 'html.parser')
             #     text = soup_try.find('div',class_='content').text.strip().split(';')
-            for i in soup_try.find_all('div', class_='content'):
-                list_entry.append(i.get_text(strip=True))
+            list_entry.append(
+                " ".join([i.get_text(strip=True) for i in soup_try.find_all('div', class_='content')]))
 
             sleep(random.randint(0, 2))
-        dict_edit.append(list_entry)
+            big_edit.append(list_entry[0])
+
+        else:
+            for i in range(1, page_max + 1):
+                urls = url + '?p=' + str(i)
+                r = requests.get(urls, headers=headers_1)
+                soup_try = BeautifulSoup(r.content, 'html.parser')
+                #     text = soup_try.find('div',class_='content').text.strip().split(';')
+                list_entry.append(
+                    " ".join([i.get_text(strip=True) for i in soup_try.find_all('div', class_='content')]))
+
+                sleep(random.randint(0, 2))
+            big_edit.append(list_entry[0])
     print('Done')
-    return dict_edit
+    return big_edit
 
 
 def grab_single(url):
@@ -210,13 +219,13 @@ def get_date(url):
                     soup_try.find('div', {'id': 'content'}).find('div', {'class': 'info'}).find('a', {
                         'class': 'entry-date permalink'})]
         except:
-            begin = ['0']
+            begin = [0]
         list_date.append(date)
     print('Done')
     return [i[0] for i in list_date]
 
 
-def get_with_method(url, date=True, method='input'):
+def get_with_method(url, method='all'):
     """
 
     :type url: str
@@ -235,32 +244,6 @@ def get_with_method(url, date=True, method='input'):
         start = int(input())
         print('Input end page')
         end = int(input())
-        for i in tqdm(range(start, end)):
-            text_edit = []
-            urls = url + '?p=' + str(i)
-            r = requests.get(urls, headers=headers_1)
-            soup_try = BeautifulSoup(r.content, 'html.parser')
-
-            text_edit = [i.get_text(strip=True) for i in soup_try.find_all('div', class_='content')]
-            single_list.append(text_edit)
-            single_list = [i for s in single_list for i in s]
-
-            try:
-                date = [i.get_text(strip=True)[:11] for i in
-                        soup_try.find('div', {'id': 'content'}).find_all('div', {'class': 'info'})]
-            except:
-                begin = ['0']
-            list_date.append(date)
-            list_date = [i for s in list_date for i in s]
-            sleep(random.randint(0, 2))
-        return single_list, [i[0] for i in list_date]
-    elif method == 'all':
-        single_list = []
-        list_date = []
-        end = find_end(url)
-        print('This title has' + ' ' + str(end) + ' ' + 'pages')
-        start = 1
-        end = end + 1
         list_entry = []
         list_date = []
         for i in tqdm(range(start, end)):
@@ -276,9 +259,29 @@ def get_with_method(url, date=True, method='input'):
 
             sleep(random.randint(0, 2))
         return list_entry, list_date
-    elif method == 'debug':
-        single_list = []
+
+    elif method == 'all':
+        list_entry = []
         list_date = []
+        end = find_end(url)
+        print('This title has' + ' ' + str(end) + ' ' + 'pages')
+        start = 1
+        end = end + 1
+        for i in tqdm(range(start, end)):
+            urls = url + '?p=' + str(i)
+            r = requests.get(urls, headers=headers_1)
+            soup_try = BeautifulSoup(r.content, 'html.parser')
+
+            for i in soup_try.find_all('div', class_='content'):
+                list_entry.append(i.get_text(strip=True))
+
+            for i in soup_try.find_all('div', {'class': 'info'}):
+                list_date.append(i.get_text(strip=True)[:10])
+
+            sleep(random.randint(0, 2))
+        return list_entry, list_date
+
+    elif method == 'debug':
         end = find_end(url)
         print('This title has' + ' ' + str(end) + ' ' + 'pages')
         start = 1
@@ -302,9 +305,13 @@ def get_with_method(url, date=True, method='input'):
 
 
 def plot_wordcloud(text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0, 16.0),
-                   title='Vo', title_size=40, image_color=False, colormap="viridis", background_color='white'):
+                   title='Vo', title_size=40, image_color=False, colormap="viridis", background_color='white',
+                   names='wordcloud_temp', foldername='Other'):
     """
 
+        :param names:
+        :param folder:
+        :param foldername:
         :param text: As df['column'] format or list of text(words)
         :param mask: Defaults to None
         :param max_words: As integer
@@ -344,5 +351,37 @@ def plot_wordcloud(text, mask=None, max_words=200, max_font_size=100, figure_siz
                                    'verticalalignment': 'bottom'})
     plt.axis('off');
     plt.tight_layout()
-    plt.show()
-    wordcloud.to_file('wordcloud/demo_garanti.png')
+    # plt.show()
+    if foldername != 'Other':
+        wordcloud.to_file('wordcloud/' + str(foldername) + '/' + '{}.png'.format(names))
+    else:
+        wordcloud.to_file('wordcloud/{}.png'.format(names))
+    plt.close()
+
+
+def df_to_dict(df):
+    '''
+
+    :param df: Pass a DataFrame
+    :return: return a dict with titles as keys and entry as values
+    '''
+    big_dd = {}
+    for index, row in zip(df.index, df.title):
+        big_ll = list()
+        big_ll.append(df.entry.loc[index])
+        big_dd.update({'{}'.format(row): big_ll})
+    return big_dd
+
+
+def plot_all(df, *args):
+    dict_to_loop = df_to_dict(df)
+    for key, val in tqdm(dict_to_loop.items()):
+        # print(key.replace(' ', '_'))
+        underscore_key = key.replace(' ', '_').replace('/', '_')
+        dirname = 'wordcloud/' + args[0]
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
+            print("Directory ", dirname, " Created ")
+        else:
+            pass
+        plot_wordcloud(text=val, title=key, names=underscore_key, foldername=args[0])

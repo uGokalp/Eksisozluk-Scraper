@@ -1,8 +1,8 @@
 from funcs import *
 
-page_end = find_end_search('gitar')
+page_end = find_end_search('vodafone')
 print("Max page", page_end)
-list_links, list_titles = titles_links('gitar', page_end)
+list_links, list_titles = titles_links('vodafone', page_end)
 
 list_max_pages = last_page_agg(list_links)
 list_begin = start_date(list_links)
@@ -26,4 +26,4 @@ print("Length of title is", len(list_titles))
 df_dict = dict(entry=list_icerik, listend=list_end, listbegin=list_begin, maxpage=list_max_pages,
                links=list_links, title=list_titles)
 df = pd.DataFrame(df_dict)
-df.to_csv('example_gitar2.csv')
+df.to_csv('data/vodafone.csv')
