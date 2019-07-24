@@ -1,4 +1,4 @@
-from funcs import *
+from eksi_scraper.funcs import *
 
 page_end = find_end_search('vodafone')
 print("Max page", page_end)
@@ -25,5 +25,8 @@ print("Length of title is", len(list_titles))
 
 df_dict = dict(entry=list_icerik, listend=list_end, listbegin=list_begin, maxpage=list_max_pages,
                links=list_links, title=list_titles)
-df = pd.DataFrame(df_dict)
-df.to_csv('data/vodafone.csv')
+df_vodafone = pd.DataFrame(df_dict)
+df_vodafone.to_csv('data/vodafone.csv')
+
+df_vodafone = pd.read_csv('data/vodafone.csv', index_col=0)
+plot_all(df_vodafone, 'Vodafone')

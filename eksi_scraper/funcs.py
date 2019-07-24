@@ -7,7 +7,11 @@ from time import sleep
 from tqdm import tqdm
 import random
 import csv
-from eksi_scraper.stopwords_1 import stopwords_1
+
+try:
+    from eksi_scraper.stopwords_1 import stopwords_1
+except:
+    from stopwords_1 import stopwords_1
 from wordcloud import WordCloud, ImageColorGenerator
 import matplotlib.pyplot as plt
 import os
@@ -22,10 +26,10 @@ headers_1 = {"User-Agent": "Mozilla/5.0"}
 def find_end(url):
     end_r = requests.get(url, headers=headers_1)
     soup_end = BeautifulSoup(end_r.content, 'html.parser')
-    page_end = re.findall(re.compile('(?:\D*(\d+)){2}'), str(soup_end.find_all("div", class_='pager')))
+    soup_end2 = soup_end.find("div", class_='pager')
     try:
-        page_end = int(page_end[0])
-    except:
+        page_end = int(soup_end2['data-pagecount'])
+    except TypeError:
         page_end = 1
 
     return page_end
@@ -33,14 +37,7 @@ def find_end(url):
 
 def find_end_search(search):
     url = 'https://eksisozluk.com/basliklar/ara?SearchForm.Keywords=' + search + '&SearchForm.NiceOnly=false&SearchForm.SortOrder=Date&p=2'
-    end_r = requests.get(url, headers=headers_1)
-    soup_end = BeautifulSoup(end_r.content, 'html.parser')
-    page_end = re.findall(re.compile('(?:\D*(\d+)){2}'), str(soup_end.find_all("div", class_='pager')))
-    try:
-        page_end = int(page_end[0])
-    except:
-        page_end = 0
-    return page_end
+    return find_end(url)
 
 
 # Return titles and links for searchedtitle
@@ -78,7 +75,7 @@ def titles_links(baslik_search, page_end):
 
 def last_page_agg(url_list):
     '''
-
+    FIND THE LAST PAGE OF A LIST OF URLS
     :param url_list: List -> input list of urls
     :return: last page for each url
     '''
@@ -92,6 +89,12 @@ def last_page_agg(url_list):
 
 
 def start_date(list_links):
+    """
+    FIND THE START DATE FOR A LIST OF URLS AND RESPECTIVE MAX PAGE
+    :param list_links: Provide a list of strings to find the first entry on the first page
+    :return:
+    """
+
     print('Gathering start date for each title')
     list_begin = []
     for i in tqdm(list_links):
@@ -100,7 +103,7 @@ def start_date(list_links):
         try:
             begin = soup_try.find_all('div', class_='info')[0].get_text(strip=True)[:10]
         except:
-            begin = 1
+            begin = '0'
         list_begin.append(begin)
     print('Done')
     return list_begin
@@ -108,7 +111,7 @@ def start_date(list_links):
 
 def end_date(list_links, max_page):
     '''
-
+    FIND THE END DATE FOR A LIST OF URLS AND RESPECTIVE MAX PAGE
     :param list_links:
     :param max_page:
     :return:
@@ -122,10 +125,34 @@ def end_date(list_links, max_page):
         try:
             end = soup_try.find_all('div', class_='info')[-1].get_text(strip=True)[:10]
         except:
-            end = 1
+            end = '0'
         list_end.append(end)
     print('Done')
     return list_end
+
+
+def end_date_max_page(url_list):
+    """
+    COMBINES LAST PAGE AND END DATE
+    :param url_list:
+    :return:
+    """
+    max_page = list()
+    for url in tqdm(url_list):
+        page = find_end(url)
+        max_page.append(page)
+    list_end = end_date(url_list, max_page)
+    return max_page, list_end
+
+
+def gather_all(url_list):
+    list_begin = start_date(url_list)
+    max_page = list()
+    for url in tqdm(url_list):
+        page = find_end(url)
+        max_page.append(page)
+    list_end = end_date(url_list, max_page)
+    return max_page, list_begin, list_end
 
 
 def checkpoint_one(list_link, list_zero, max_page, list_begin, list_end):
@@ -352,7 +379,12 @@ def plot_wordcloud(text, mask=None, max_words=200, max_font_size=100, figure_siz
     plt.tight_layout()
     # plt.show()
     if foldername != 'Other':
-        wordcloud.to_file('wordcloud/' + str(foldername) + '/' + '{}.png'.format(names))
+        if not os.path.exists('wordcloud/' + str(foldername)):
+            os.mkdir('wordcloud/' + str(foldername))
+            print("Directory ", 'wordcloud/' + str(foldername), " Created ")
+            wordcloud.to_file('wordcloud/' + str(foldername) + '/' + '{}.png'.format(names))
+        else:
+            wordcloud.to_file('wordcloud/' + str(foldername) + '/' + '{}.png'.format(names))
     else:
         wordcloud.to_file('wordcloud/{}.png'.format(names))
     plt.close()

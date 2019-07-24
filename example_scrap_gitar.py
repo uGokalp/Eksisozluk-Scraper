@@ -26,7 +26,7 @@ print("Length of title is", len(list_titles))
 df_dict = dict(entry=list_icerik, listend=list_end, listbegin=list_begin, maxpage=list_max_pages,
                links=list_links, title=list_titles)
 df = pd.DataFrame(df_dict)
-df.to_csv('example_gitar.csv')
+df.to_csv('data/example_gitar.csv')
 
-df_gitar = pd.read_csv('example_gitar.csv', index_col=0)
+df_gitar = pd.read_csv('data/example_gitar.csv', index_col=0)
 plot_all(df_gitar, 'Gitar')
