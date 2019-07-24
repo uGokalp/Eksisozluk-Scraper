@@ -21,3 +21,5 @@
 ```df_vodafone.to_csv('data/vodafone.csv')```
 12. (Optional) pass DataFrame to plot_all() to plot wordcloud for each title
 ```plot_all(df_vodafone, 'Vodafone')```
+
+[Vodafone.py]((https://github.com/uGokalp/Eksisozluk-Scraper/blob/0.1.0/Vodafone.py)
