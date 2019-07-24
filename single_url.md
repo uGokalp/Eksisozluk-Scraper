@@ -1,4 +1,4 @@
-Gather Entries from single url
+# Gather Entries from single url
 1. Import funcs module 
 `from scraper.funcs import *`
 2. Call get_with_method and assign to two variables. This will grab each entry and entry date from the url.
