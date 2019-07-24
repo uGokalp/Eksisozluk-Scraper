@@ -163,6 +163,16 @@ def checkpoint_one(list_link, list_zero, max_page, list_begin, list_end):
     print('Done')
 
 
+def grab_titles(url_list):
+    titles = []
+    for url in url_list:
+        ry = requests.get(url, headers=headers_1)
+        soupy = BeautifulSoup(ry.content, 'html.parser').find('span', itemprop="name")
+        baslik = soupy.text
+        titles.append(baslik)
+    return titles
+
+
 # Optimize
 def get_icerik(new_dict):
     '''
@@ -202,7 +212,7 @@ def get_icerik(new_dict):
     return big_edit
 
 
-# Needs to go!
+# Only used in with_method() else statement
 def grab_single(url):
     single_list = []
     end = find_end(url)
